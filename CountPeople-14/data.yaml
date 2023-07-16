@@ -1,0 +1,12 @@
+names:
+- People
+nc: 1
+roboflow:
+  license: CC BY 4.0
+  project: countpeople
+  url: https://universe.roboflow.com/ca-foscari-university-of-venice/countpeople/dataset/14
+  version: 14
+  workspace: ca-foscari-university-of-venice
+test: ../test/images
+train: /content/drive/MyDrive/AI_Project/CountPeople-14/train/images
+val: /content/drive/MyDrive/AI_Project/CountPeople-14/valid/images
