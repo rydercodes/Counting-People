@@ -1,11 +1,11 @@
 # Counting People
-Analyzed a dataset consisting of videos recorded at a bus entrance in China. Annotated the images in video frames and trained a model to count the number of people passing through a specified scene using TensorFlow Object Detection.
+Analyzed a dataset consisting of videos recorded at a bus entrance in China and annotated the images in video frames. Trained a model using TensorFlow Object Detection to count the number of people passing through a specified scene.
 
 ---
 ## **Explaination**
-The videos are annotated frame by frame, each second, and then annotated and split using Roboflow. I used Yolov5 to detect people in each image (frame). In the following, I will explain it in detail.
+The videos were annotated frame by frame, each second, and then annotated and split using Roboflow. Yolov5 was utilized to detect people in each image (frame). Below, I will explain the process in detail.
 
-After going to the main directory of the project in google colab, we should clone the Yolov5
+To begin, navigate to the main directory of the project in Google Colab and clone Yolov5. Next, add the torch and os libraries. Then, import the dataset from Roboflow.
 ```ruby
 # clone YOLOv5
 !git clone https://github.com/ultralytics/yolov5  # clone repo
@@ -13,14 +13,14 @@ After going to the main directory of the project in google colab, we should clon
 %pip install -qr requirements.txt # install dependencies
 %pip install -q roboflow
 ```
-After that we should add torch and os libraries
+Afterward, we need to add the torch and os libraries to our project. This can be done by including the following lines of code
 ```ruby
 import torch
 import os
 from IPython.display import Image, clear_output  # to display images
 print(f"Setup complete. Using torch {torch.__version__} ({torch.cuda.get_device_properties(0).name if torch.cuda.is_available() else 'CPU'})")
 ```
-Then, we should import our dataset from the roboflow
+Once the libraries are imported, we can proceed to import our dataset from Roboflow. This step is crucial for accessing the annotated images and frames. The specific code for importing the dataset may vary depending on the format and structure of the dataset provided by Roboflow.
 ```ruby
 from roboflow import Roboflow
 rf = Roboflow(model_format="yolov5", notebook="ultralytics")
@@ -34,15 +34,15 @@ rf = Roboflow(api_key="6MZs0IEOrn1yaUepdoxH")
 project = rf.workspace("ca-foscari-university-of-venice").project("countpeople")
 dataset = project.version(14).download("yolov5")
 ```
-By applying the following code we consider human detection in such a way that the number of epochs, number of batches and image size. 
+To detect humans, use the following code, which considers the number of epochs, number of batches, and image size. 
 ```ruby
 !python train.py --img 416 --batch 16 --epochs 25 --data {'/content/drive/MyDrive/AI_Project/CountPeople-14'}/data.yaml --weights yolov5s.pt --cache
 ```
-to consider the objects as human we set **--conf** to **0.7** to say if the probability was more than 70% it should be human. 
+To classify objects as humans, set the **--conf** parameter to **0.7**, indicating that if the probability is higher than 70%, it should be classified as a human. 
 ```ruby
 !python /content/drive/MyDrive/AI_Project/yolov5/detect.py --weights /content/drive/MyDrive/AI_Project/yolov5/runs/train/exp/weights/best.pt --img 416 --conf 0.7 --source {'/content/drive/MyDrive/Pellilo/Main/CountPeople-14'}/test/images
 ```
-To read all the images from the directory we can use
+To read all the images from the directory, you can use the following code snippet
 ```ruby
 import cv2 as cv
 import glob
